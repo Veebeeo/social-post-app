@@ -1,0 +1,40 @@
+import { useState } from 'react';
+import { TextField, Button, Paper, Typography, Box, Container } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+
+export default function Login() {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+      localStorage.setItem('token', res.data.token);
+      navigate('/'); // Redirect to feed upon success
+    } catch (err) {
+      alert(err.response?.data?.message || 'Login failed');
+    }
+  };
+
+  return (
+    <Container maxWidth="xs" sx={{ mt: 10 }}>
+      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography variant="h5" mb={3}>Welcome Back</Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+          <TextField fullWidth label="Email" type="email" margin="normal" required
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+          <TextField fullWidth label="Password" type="password" margin="normal" required
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+          <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 3, mb: 2 }}>
+            Login
+          </Button>
+          <Typography align="center" variant="body2">
+            Don't have an account? <Link to="/register">Register here</Link>
+          </Typography>
+        </Box>
+      </Paper>
+    </Container>
+  );
+}
