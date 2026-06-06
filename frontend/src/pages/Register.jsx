@@ -12,7 +12,7 @@ export default function Register() {
     try {
       const res = await axios.post('https://social-post-app-u6t2.onrender.com/api/auth/register', formData);
       localStorage.setItem('token', res.data.token);
-      navigate('/');
+      window.location.href = '/';
     } catch (err) {
       alert(err.response?.data?.message || 'Registration failed');
     }

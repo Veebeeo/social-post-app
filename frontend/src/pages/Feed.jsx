@@ -4,6 +4,7 @@ import {
   IconButton, Divider, InputAdornment, Menu, MenuItem, 
   Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { 
   PhotoCamera, Send, FavoriteBorder, ChatBubbleOutlined, 
   ShareOutlined, Search, NotificationsNone, DarkModeOutlined, MoreVert
@@ -12,6 +13,7 @@ import axios from 'axios';
 
 
 export default function Feed() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [postText, setPostText] = useState('');
   const [imageFile, setImageFile] = useState(null);
@@ -150,6 +152,11 @@ export default function Feed() {
     }));
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Deletes the saved session
+    navigate('/login'); // Redirects back to the login screen
+  };
+
   return (
     <Container maxWidth="sm" sx={{ pt: 3, pb: 8, bgcolor: 'background.default', minHeight: '100vh' }}>
       
@@ -162,6 +169,11 @@ export default function Feed() {
           <Avatar sx={{ width: 38, height: 38, bgcolor: 'primary.main' }}>
             {currentUsername.charAt(0).toUpperCase()}
           </Avatar>
+
+          <IconButton onClick={handleLogout} color="error" size="small">
+            <Logout />
+          </IconButton>
+          
         </Box>
       </Box>
 

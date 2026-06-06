@@ -12,7 +12,7 @@ export default function Login() {
     try {
       const res = await axios.post('https://social-post-app-u6t2.onrender.com/api/auth/login', formData);
       localStorage.setItem('token', res.data.token);
-      navigate('/'); // Redirect to feed upon success
+      window.location.href = '/';
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');
     }
