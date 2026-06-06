@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { TextField, Button, Paper, Typography, Box, Container } from '@mui/material';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Register() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
