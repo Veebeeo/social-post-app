@@ -7,7 +7,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { 
   PhotoCamera, Send, FavoriteBorder, ChatBubbleOutlined, 
-  ShareOutlined, Search, NotificationsNone, DarkModeOutlined, MoreVert
+  ShareOutlined, Search, NotificationsNone, DarkModeOutlined, MoreVert, Logout
 } from '@mui/icons-material';
 import axios from 'axios';
 
@@ -173,7 +173,7 @@ export default function Feed() {
           <IconButton onClick={handleLogout} color="error" size="small">
             <Logout />
           </IconButton>
-          
+
         </Box>
       </Box>
 
