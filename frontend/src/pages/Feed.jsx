@@ -36,7 +36,7 @@ export default function Feed() {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/posts');
+      const res = await axios.get('https://social-post-app-u6t2.onrender.com/api/posts');
       setPosts(res.data);
     } catch (err) {
       console.error('Error fetching posts', err);
@@ -58,7 +58,7 @@ export default function Feed() {
     if (imageFile) formData.append('image', imageFile);
 
     try {
-      await axios.post('http://localhost:5000/api/posts', formData, {
+      await axios.post('https://social-post-app-u6t2.onrender.com/api/posts', formData, {
         headers: { 
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}` 
@@ -86,7 +86,7 @@ export default function Feed() {
   // --- Delete Handler ---
   const handleDeletePost = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${activePost._id}`, {
+      await axios.delete(`https://social-post-app-u6t2.onrender.com/api/posts/${activePost._id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       handleMenuClose();
@@ -105,7 +105,7 @@ export default function Feed() {
 
   const handleEditSubmit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/posts/${editPostData.id}`, 
+      await axios.put(`https://social-post-app-u6t2.onrender.com/api/posts/${editPostData.id}`, 
         { text: editPostData.text }, 
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
@@ -118,7 +118,7 @@ export default function Feed() {
 
   const handleLike = async (postId) => {
     try {
-      await axios.post(`http://localhost:5000/api/posts/${postId}/like`, {}, {
+      await axios.post(`https://social-post-app-u6t2.onrender.com/api/posts/${postId}/like`, {}, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       fetchPosts();
@@ -132,7 +132,7 @@ export default function Feed() {
     if (!text) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/posts/${postId}/comment`, { text }, {
+      await axios.post(`https://social-post-app-u6t2.onrender.com/api/posts/${postId}/comment`, { text }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setCommentInputs({ ...commentInputs, [postId]: '' });
@@ -285,7 +285,7 @@ export default function Feed() {
           {post.imageUrl && (
             <Box px={2.5} pb={2}>
                <img 
-                 src={`http://localhost:5000${post.imageUrl}`} 
+                 src={`https://social-post-app-u6t2.onrender.com${post.imageUrl}`} 
                  alt="Post Content" 
                  style={{ width: '100%', borderRadius: '8px', display: 'block' }} 
                />
