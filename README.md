@@ -10,15 +10,15 @@ A full-stack social media web application where users can register, log in, crea
 
 
 ### Login Page
-![Login Page](<img width="1901" height="897" alt="image" src="https://github.com/user-attachments/assets/3b9a9284-e739-40cd-9453-cc5226cb1f4a" />)
+<img width="1901" height="897" alt="image" src="https://github.com/user-attachments/assets/3b9a9284-e739-40cd-9453-cc5226cb1f4a" />
 
 ### Register Page
-![Register Page](<img width="1907" height="893" alt="image" src="https://github.com/user-attachments/assets/61feac75-7408-4b3b-a275-9eebf5fdd14c" />)
+<img width="1907" height="893" alt="image" src="https://github.com/user-attachments/assets/61feac75-7408-4b3b-a275-9eebf5fdd14c" />
 
 
 ### Feed / Home Page
-![Feed Page](<img width="1880" height="901" alt="image" src="https://github.com/user-attachments/assets/3c85b2f7-833c-46ec-841e-3737f390b2a4" />
-)
+<img width="1880" height="901" alt="image" src="https://github.com/user-attachments/assets/3c85b2f7-833c-46ec-841e-3737f390b2a4" />
+
 
 
 ---
