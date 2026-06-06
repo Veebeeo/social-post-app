@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary').v2; // Using the official SDK instead of the outdated plugin
 const auth = require('../middleware/auth');
 const Post = require('../models/Post');
 
@@ -13,14 +12,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Configure Multer to push files directly to Cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'social_app_posts', // The folder name in your Cloudinary account
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
-  }
-});
+// Configure Multer to temporarily hold the uploaded file in server RAM (Memory)
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // @route   POST /api/posts
@@ -28,9 +21,22 @@ const upload = multer({ storage: storage });
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { text } = req.body;
+    let imageUrl = null;
     
-    
-    const imageUrl = req.file ? req.file.path : null; 
+    // If an image is attached, stream it directly from Memory to Cloudinary
+    if (req.file) {
+      imageUrl = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: 'social_app_posts' },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result.secure_url);
+          }
+        );
+        // Push the file buffer into Cloudinary
+        stream.end(req.file.buffer);
+      });
+    }
 
     if (!text && !imageUrl) {
       return res.status(400).json({ message: 'Post must contain either text or an image' });
@@ -46,10 +52,12 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     const post = await newPost.save();
     res.json(post);
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+    console.error('Error creating post:', err);
+    res.status(500).json({ message: 'Server Error during upload' });
   }
 });
+
+// ... Keep your existing GET, LIKE, COMMENT, PUT, and DELETE routes below this point ...
 
 // @route   GET /api/posts
 // @desc    Get all posts for the public feed
