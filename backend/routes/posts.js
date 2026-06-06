@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const cloudinary = require('cloudinary').v2; // Using the official SDK instead of the outdated plugin
+const cloudinary = require('cloudinary').v2;
 const auth = require('../middleware/auth');
 const Post = require('../models/Post');
 
