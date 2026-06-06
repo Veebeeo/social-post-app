@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 const auth = require('../middleware/auth');
 const Post = require('../models/Post');
-const User = require('../models/User');
 
-// Configure Multer for image uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+// Configure Cloudinary using your environment variables
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Configure Multer to push files directly to Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'social_app_posts', // The folder name in your Cloudinary account
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
   }
 });
 const upload = multer({ storage: storage });
@@ -22,7 +28,9 @@ const upload = multer({ storage: storage });
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { text } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    
+    
+    const imageUrl = req.file ? req.file.path : null; 
 
     if (!text && !imageUrl) {
       return res.status(400).json({ message: 'Post must contain either text or an image' });

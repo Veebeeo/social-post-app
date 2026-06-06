@@ -285,7 +285,7 @@ export default function Feed() {
           {post.imageUrl && (
             <Box px={2.5} pb={2}>
                <img 
-                 src={`https://social-post-app-u6t2.onrender.com${post.imageUrl}`} 
+                 src={post.imageUrl} 
                  alt="Post Content" 
                  style={{ width: '100%', borderRadius: '8px', display: 'block' }} 
                />
