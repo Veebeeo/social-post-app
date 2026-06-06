@@ -60,7 +60,7 @@ export default function Feed() {
     try {
       await axios.post('https://social-post-app-u6t2.onrender.com/api/posts', formData, {
         headers: { 
-          'Content-Type': 'multipart/form-data',
+          
           'Authorization': `Bearer ${token}` 
         }
       });
