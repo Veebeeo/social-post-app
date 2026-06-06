@@ -70,9 +70,10 @@ export default function Feed() {
       fetchPosts(); // Refresh feed
     } catch (err) {
       console.error('Error creating post', err);
+      alert('Upload Error: ' + (err.response?.data?.message || err.message));
     }
   };
-  // --- Menu Handlers ---
+  //Menu Handlers
   const handleMenuOpen = (event, post) => {
     setAnchorEl(event.currentTarget);
     setActivePost(post);
