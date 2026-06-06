@@ -5,12 +5,6 @@ const cloudinary = require('cloudinary').v2;
 const auth = require('../middleware/auth');
 const Post = require('../models/Post');
 
-// Configure Cloudinary using your environment variables
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
 
 // Configure Multer to temporarily hold the uploaded file in server RAM (Memory)
 const storage = multer.memoryStorage();
