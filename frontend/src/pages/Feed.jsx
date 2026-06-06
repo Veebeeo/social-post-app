@@ -70,7 +70,7 @@ export default function Feed() {
       fetchPosts(); // Refresh feed
     } catch (err) {
       console.error('Error creating post', err);
-      alert('Upload Error: ' + (err.response?.data?.message || err.message));
+      res.status(500).json({ message: err.message || 'Server Error during upload' });
     }
   };
   //Menu Handlers
