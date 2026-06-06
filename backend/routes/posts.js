@@ -106,4 +106,48 @@ router.post('/:id/comment', auth, async (req, res) => {
   }
 });
 
+// @route   PUT /api/posts/:id
+// @desc    Edit a post's text
+router.put('/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+
+    // Ensure the logged-in user is the creator of the post
+    if (post.user.toString() !== req.user.userId) {
+      return res.status(401).json({ message: 'Not authorized to edit this post' });
+    }
+
+    // Update the text and save
+    post.text = req.body.text || '';
+    await post.save();
+    
+    res.json(post);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE /api/posts/:id
+// @desc    Delete a post
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+
+    // Ensure the logged-in user is the creator of the post
+    if (post.user.toString() !== req.user.userId) {
+      return res.status(401).json({ message: 'Not authorized to delete this post' });
+    }
+
+    await post.deleteOne();
+    res.json({ message: 'Post removed successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
+
